@@ -16,4 +16,4 @@ module.exports = function(url) {
   el.style.backgroundImage = 'url(\'' + url + '\')';
 
   return el;
-}
+};
