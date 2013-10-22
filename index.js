@@ -2,12 +2,19 @@
 /* global document: false */
 'use strict';
 
-var body = document.body;
+var bedazzle = require('bedazzle');
 var crel = require('crel');
+var transform = require('feature/css')('transform');
 var keydown = require('dd/next')('keydown', document);
 var pull = require('pull-stream');
+var render = require('./render');
 var current;
 var slide;
+
+// transform functions
+var activate = push(0);
+var pushRight = push(screen.width);
+var pushLeft = push(-screen.width);
 
 // create a key directions hash
 var keyDirections = {
@@ -17,12 +24,27 @@ var keyDirections = {
   40: 'next'
 };
 
+require('insert-css')([
+  'html, body { margin: 0; padding: 0; overflow: hidden }',
+  '.slide {',
+  '  padding: 1em;',
+  '  font-size: 3em;',
+  '  transition: all ease-in-out 0.5s;',
+  '  background-size: cover;',
+  '}'
+].join('\n'));
+
 /**
   # shazam
+  
+  Shazam is a simple code driven presentation system.
 
+  ## Example Usage
+
+  <<< examples/welcome.js
 **/
 
-module.exports = function(title, opts, deck) {
+var shazam = module.exports = function(title, opts, deck) {
   var slides = [];
   var slideIdx = 0;
 
@@ -36,17 +58,24 @@ module.exports = function(title, opts, deck) {
   function nextSlide() {
     if (slideIdx < slides.length - 1) {
       slideIdx += 1;
-    }
 
-    return slides[slideIdx];
+      pushLeft(slides[slideIdx - 1]);
+      activate(slides[slideIdx]);
+    }
   }
 
   function previousSlide() {
     if (slideIdx > 0) {
       slideIdx -= 1;
-    }
 
-    return slides[slideIdx];
+      pushRight(slides[slideIdx + 1]);
+      activate(slides[slideIdx]);
+    }
+  }
+
+  // if we don't have transforms spit the dummy
+  if (! transform) {
+    throw new Error('need css transforms');
   }
 
   // check for no opts
@@ -55,9 +84,16 @@ module.exports = function(title, opts, deck) {
     opts = {};
   }
 
-  // copy the deck so we don't destroy it
-  slides = [].concat(deck);
-  slideIdx = 0;
+  // create the slides
+  slides = deck
+    // create the element
+    .map(render(opts))
+    // apply required base styling
+    .map(style)
+    // push right
+    .map(pushRight)
+    // append to the body
+    .map(append);
 
   // set out title based on the title provided
   document.title = title;
@@ -72,31 +108,41 @@ module.exports = function(title, opts, deck) {
       return keyActions[key];
     }),
     pull.drain(function(key) {
-      render(keyActions[key](), keyDirections[key])
+      keyActions[key]();
     })
   );
 
-  // render the first slide
-  render(slides[slideIdx]);
+  // display the initial slide
+  if (slides.length > 0) {
+    activate(slides[slideIdx]);
+  }
 };
 
-function render(content, direction) {
-  if (current === content) {
-    return;
-  }
+/* simple inline plugins */
 
-  // if we have a current slide, then remove it from the DOM
-  if (slide) {
-    slide.parentNode.removeChild(slide);
-    slide = null;
-  }
+shazam.img = require('./img');
 
-  // handle content rendering
-  if (typeof content == 'string' || (content instanceof String)) {
-    slide = crel('div', { class: 'slide' }, content);
-    body.appendChild(slide);
-  }
+/* internal functions */
 
-  // update current
-  current = content;
+function push(position) {
+  return function(slide) {
+    transform(slide, 'translateX(' + position + 'px) translateZ(0)');
+    return slide;
+  };
+}
+
+function append(slide) {
+  // add to the document
+  document.body.appendChild(slide);
+
+  // return the slide
+  return slide;
+}
+
+function style(slide) {
+  slide.style.position = 'absolute';
+  slide.style.height = screen.height + 'px';
+  slide.style.width = screen.width + 'px';
+
+  return slide;
 }
