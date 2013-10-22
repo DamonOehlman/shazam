@@ -4,7 +4,8 @@
   "description": "Vanquish your foes with crazy JS authored presentations",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gendocs": "gendocs > README.md"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,10 @@
     "shazam"
   ],
   "author": "Damon Oehlman <damon.oehlman@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "crel": "~1.1.0",
+    "dd": "~0.3.1",
+    "pull-stream": "~2.20.1"
+  }
 }
