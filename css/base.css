@@ -1,0 +1,12 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.slide {
+  padding: 1em;
+  font-size: 3em;
+  transition: all ease-in-out 0.5s;
+  background-size: cover;
+}

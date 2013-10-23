@@ -2,6 +2,7 @@
 /* global document: false */
 'use strict';
 
+var fs = require('fs');
 var bedazzle = require('bedazzle');
 var crel = require('crel');
 var transform = require('feature/css')('transform');
@@ -15,6 +16,7 @@ var slide;
 var activate = push(0);
 var pushRight = push(screen.width);
 var pushLeft = push(-screen.width);
+var wooble = fs.readFileSync(__dirname + '/examples/test.js');
 
 // create a key directions hash
 var keyDirections = {
@@ -24,15 +26,7 @@ var keyDirections = {
   40: 'next'
 };
 
-require('insert-css')([
-  'html, body { margin: 0; padding: 0; overflow: hidden }',
-  '.slide {',
-  '  padding: 1em;',
-  '  font-size: 3em;',
-  '  transition: all ease-in-out 0.5s;',
-  '  background-size: cover;',
-  '}'
-].join('\n'));
+require('insert-css')(fs.readFileSync(__dirname + '/css/base.css'));
 
 /**
   # shazam
