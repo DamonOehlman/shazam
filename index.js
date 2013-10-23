@@ -3,9 +3,10 @@
 'use strict';
 
 var fs = require('fs');
-var bedazzle = require('bedazzle');
+// var bedazzle = require('bedazzle');
 var crel = require('crel');
 var transform = require('feature/css')('transform');
+var flatten = require('whisk/flatten');
 var keydown = require('dd/next')('keydown', document);
 var pull = require('pull-stream');
 var render = require('./render');
@@ -78,8 +79,13 @@ var shazam = module.exports = function(title, opts, deck) {
     opts = {};
   }
 
+  // initialise the basepath
+  opts.basepath = opts.basepath || '';
+
+  console.log(__dirname);
+
   // create the slides
-  slides = deck
+  slides = deck.reduce(flatten)
     // create the element
     .map(render(opts))
     // apply required base styling
@@ -115,6 +121,8 @@ var shazam = module.exports = function(title, opts, deck) {
 /* simple inline plugins */
 
 shazam.img = require('./img');
+shazam.markdown = shazam.md = require('./markdown');
+shazam.html = require('./html');
 
 /* internal functions */
 
