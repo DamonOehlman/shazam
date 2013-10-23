@@ -1,12 +1,20 @@
+var EventEmitter = require('events').EventEmitter;
+var util = require('util');
 var crel = require('crel');
 
-function Slide() {
+function Slide(el) {
   if (! (this instanceof Slide)) {
-    return new Slide();
+    return new Slide(el);
   }
 
-  this.el = crel('div', { class: 'slide' });
+  // assign or create the element
+  this.el = el || crel('div');
+
+  // prepare the element
+  this._prep(this.el);
 }
+
+util.inherits(Slide, EventEmitter);
 
 module.exports = Slide;
 var proto = Slide.prototype;
@@ -17,4 +25,11 @@ proto.title = function(value) {
 
 proto.code = function(value) {
   console.log(value);
+};
+
+/* internal methods */
+
+proto._prep = function(el) {
+  // add the slide class
+  el.classList.add('slide');
 };

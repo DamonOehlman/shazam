@@ -5,8 +5,37 @@ html, body {
 }
 
 .slide {
-  padding: 1em;
-  font-size: 3em;
+  position: absolute;
+  padding: 5%;
+  width: 90%;
+  height: 90%;
   transition: all ease-in-out 0.5s;
   background-size: cover;
+}
+
+.slide {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1.4em;
+  line-height: 1.6em;
+}
+
+.slide h1 {
+  font-size: 1.6em;
+  margin: 0;
+  text-shadow: 0 1px 2px #e8e8e8;
+}
+
+.slide h1:last-child {
+  text-align: center;
+  height: 100%;
+  padding-top: 40%;
+}
+
+.slide h2, .slide h3, .slide  h4 {
+  margin-top: 0px;
+  text-shadow: 0 1px 2px #e8e8e8;
+}
+
+.slide pre {
+  line-height: 1.4em;
 }

@@ -5,6 +5,7 @@
 var fs = require('fs');
 // var bedazzle = require('bedazzle');
 var crel = require('crel');
+var insertCss = require('insert-css');
 var transform = require('feature/css')('transform');
 var flatten = require('whisk/flatten');
 var keydown = require('dd/next')('keydown', document);
@@ -15,8 +16,8 @@ var slide;
 
 // transform functions
 var activate = push(0);
-var pushRight = push(screen.width);
-var pushLeft = push(-screen.width);
+var pushRight = push('100%');
+var pushLeft = push('-100%');
 var wooble = fs.readFileSync(__dirname + '/examples/test.js');
 
 // create a key directions hash
@@ -27,11 +28,12 @@ var keyDirections = {
   40: 'next'
 };
 
-require('insert-css')(fs.readFileSync(__dirname + '/css/base.css'));
+insertCss(fs.readFileSync(__dirname + '/css/base.css'));
+insertCss(fs.readFileSync(__dirname + '/css/code.css'));
 
 /**
   # shazam
-  
+
   Shazam is a simple code driven presentation system.
 
   ## Example Usage
@@ -86,10 +88,9 @@ var shazam = module.exports = function(title, opts, deck) {
 
   // create the slides
   slides = deck.reduce(flatten)
-    // create the element
+
+    // create the slides based in input
     .map(render(opts))
-    // apply required base styling
-    .map(style)
     // push right
     .map(pushRight)
     // append to the body
@@ -128,23 +129,15 @@ shazam.html = require('./html');
 
 function push(position) {
   return function(slide) {
-    transform(slide, 'translateX(' + position + 'px) translateZ(0)');
+    transform(slide.el, 'translateX(' + position + ') translateZ(0)');
     return slide;
   };
 }
 
 function append(slide) {
   // add to the document
-  document.body.appendChild(slide);
+  document.body.appendChild(slide.el);
 
   // return the slide
-  return slide;
-}
-
-function style(slide) {
-  slide.style.position = 'absolute';
-  slide.style.height = screen.height + 'px';
-  slide.style.width = screen.width + 'px';
-
   return slide;
 }
