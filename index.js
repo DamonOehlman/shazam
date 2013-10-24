@@ -18,7 +18,6 @@ var slide;
 var activate = push(0);
 var pushRight = push('100%');
 var pushLeft = push('-100%');
-var wooble = fs.readFileSync(__dirname + '/examples/test.js');
 
 // create a key directions hash
 var keyDirections = {
