@@ -38,6 +38,14 @@ insertCss(fs.readFileSync(__dirname + '/css/code.css'));
   ## Example Usage
 
   <<< examples/welcome.js
+
+  Then make it go using something like
+  [beefy](https://github.com/chrisdickinson/beefy):
+
+  ```
+  beefy examples/welcome.js
+  ```
+
 **/
 
 var shazam = module.exports = function(title, opts, deck) {

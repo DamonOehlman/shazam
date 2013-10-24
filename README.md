@@ -19,6 +19,13 @@ s('Welcome to Shazam', [
 ]);
 ```
 
+Then make it go using something like
+[beefy](https://github.com/chrisdickinson/beefy):
+
+```
+beefy examples/welcome.js
+```
+
 ## License(s)
 
 ### MIT
