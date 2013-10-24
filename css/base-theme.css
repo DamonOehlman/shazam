@@ -1,23 +1,12 @@
-html, body, #shazam {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
+body {
+  background: black;
+  color: white;
 }
 
 .slide {
-  padding: 5%;
-  width: 90%;
-  height: 90%;
-  background-size: cover;
-
   font-family: Helvetica, Arial, sans-serif;
   font-size: 1.4em;
   line-height: 1.6em;
-}
-
-.slide:target {
 }
 
 .slide h1 {

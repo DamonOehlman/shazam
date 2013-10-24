@@ -19,13 +19,15 @@ var slide;
 // initialise the deck data (may as well be globally available)
 var deck = window.deck = require('./deck')();
 
-insertCss(fs.readFileSync(__dirname + '/css/base.css'));
-insertCss(fs.readFileSync(__dirname + '/css/code.css'));
+insertCss(fs.readFileSync(__dirname + '/css/base-layout.css'));
+insertCss(fs.readFileSync(__dirname + '/css/base-theme.css'));
 
 /**
   # shazam
 
-  Shazam is a simple code driven presentation system.
+  Shazam is a simple code driven presentation system.  It is designed
+  primarily to make it easier to write a presentation that has demos and
+  that sort of thing baked in.
 
   ## Example Usage
 
@@ -49,6 +51,9 @@ var shazam = module.exports = function(title, opts, slides) {
     39: 'next',
     40: 'next'
   };
+
+  // TODO: configurable code theme
+  insertCss(fs.readFileSync(__dirname + '/css/code.css'));
 
   // when the entire slides change, then update the page
   deck.data.bind('[/slides]', function() {
