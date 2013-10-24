@@ -44,6 +44,7 @@ insertCss(fs.readFileSync(__dirname + '/css/code.css'));
 var shazam = module.exports = function(title, opts, deck) {
   var slides = [];
   var slideIdx = 0;
+  var autoTitle;
 
   var keyActions = {
     37: previousSlide,
@@ -56,8 +57,10 @@ var shazam = module.exports = function(title, opts, deck) {
     if (slideIdx < slides.length - 1) {
       slideIdx += 1;
 
+      slides[slideIdx - 1].emit('leave');
       pushLeft(slides[slideIdx - 1]);
       activate(slides[slideIdx]);
+      slides[slideIdx].emit('enter');
     }
   }
 
@@ -65,8 +68,10 @@ var shazam = module.exports = function(title, opts, deck) {
     if (slideIdx > 0) {
       slideIdx -= 1;
 
+      slides[slideIdx + 1].emit('leave');
       pushRight(slides[slideIdx + 1]);
       activate(slides[slideIdx]);
+      slides[slideIdx].emit('enter');
     }
   }
 
@@ -84,7 +89,12 @@ var shazam = module.exports = function(title, opts, deck) {
   // initialise the basepath
   opts.basepath = opts.basepath || '';
 
-  console.log(__dirname);
+  // if we are autotitling, then do that now
+  autoTitle = (opts || {}).autoTitle == true;
+  if (autoTitle) {
+    console.log('auto titling');
+    deck = [{ title: title }].concat(deck);
+  }
 
   // create the slides
   slides = deck.reduce(flatten)
