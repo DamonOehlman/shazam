@@ -11,6 +11,8 @@ html, body {
   height: 90%;
   transition: all ease-in-out 0.5s;
   background-size: cover;
+
+  -webkit-transform: translateX(100%) translateZ(0);
 }
 
 .slide {

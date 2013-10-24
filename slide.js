@@ -10,8 +10,16 @@ function Slide(el) {
   // assign or create the element
   this.el = el || crel('div');
 
+  // flag whether loaded or not
+  this.loaded = true;
+
   // prepare the element
   this._prep(this.el);
+
+  var slide = this;
+  setTimeout(function() {
+    slide.loaded = false;
+  }, 1000);
 }
 
 util.inherits(Slide, EventEmitter);

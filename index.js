@@ -12,13 +12,9 @@ var flatten = require('whisk/flatten');
 var keydown = require('dd/next')('keydown', document);
 var pull = require('pull-stream');
 var render = require('./render');
+var qsa = require('dd/qsa');
 var current;
 var slide;
-
-// transform functions
-var activate = push(0);
-var pushRight = push('100%');
-var pushLeft = push('-100%');
 
 insertCss(fs.readFileSync(__dirname + '/css/base.css'));
 insertCss(fs.readFileSync(__dirname + '/css/code.css'));
@@ -51,6 +47,12 @@ var shazam = module.exports = function(title, opts, slides) {
     39: 'next',
     40: 'next'
   };
+
+  // when the entire slides change, then update the page
+  deck.data.bind('[/slides]', function() {
+    rebuildDeck(deck.slides, deck.current);
+  });
+
 
   function nextSlide() {
     if (slideIdx < slides.length - 1) {
@@ -96,7 +98,7 @@ var shazam = module.exports = function(title, opts, slides) {
   }
 
   // initialise the slides
-  deck.data.set('slides', slides.reduce(flatten).map(render(opts)));
+  deck.data.set('[/slides]', slides.reduce(flatten).map(render(opts)));
 
   // set out title based on the title provided
   document.title = title;
@@ -108,10 +110,9 @@ var shazam = module.exports = function(title, opts, slides) {
       console.log(evt.keyCode);
       return keyActions[evt.keyCode];
     }),
-    pull.filter(Boolean),
     pull.drain(function(action) {
-      if (typeof model[action] == 'function') {
-        model[action]();
+      if (action && typeof deck[action] == 'function') {
+        deck[action]();
       }
     })
   );
@@ -128,23 +129,18 @@ shazam.img = require('./img');
 shazam.markdown = shazam.md = require('./markdown');
 shazam.html = require('./html');
 
-/* internal functions */
+/* helpers */
 
-function invokeAction(action) {
+function rebuildDeck(slides, current) {
+  var container = document.getElementById('shazam') || document.body;
 
-}
+  // remove current slides
+  qsa('.slide', container).forEach(function(el) {
+    el.parentNode.removeChild(el);
+  });
 
-function push(position) {
-  return function(slide) {
-    transform(slide.el, 'translateX(' + position + ') translateZ(0)');
-    return slide;
-  };
-}
-
-function append(slide) {
-  // add to the document
-  document.body.appendChild(slide.el);
-
-  // return the slide
-  return slide;
+  // add the new slides
+  slides.forEach(function(slide) {
+    container.appendChild(slide.el);
+  });
 }
