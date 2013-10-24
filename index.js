@@ -3,6 +3,7 @@
 'use strict';
 
 var fs = require('fs');
+var gedi = require('gedi');
 // var bedazzle = require('bedazzle');
 var crel = require('crel');
 var insertCss = require('insert-css');
@@ -18,14 +19,6 @@ var slide;
 var activate = push(0);
 var pushRight = push('100%');
 var pushLeft = push('-100%');
-
-// create a key directions hash
-var keyDirections = {
-  37: 'back',
-  38: 'back',
-  39: 'next',
-  40: 'next'
-};
 
 insertCss(fs.readFileSync(__dirname + '/css/base.css'));
 insertCss(fs.readFileSync(__dirname + '/css/code.css'));
@@ -48,16 +41,15 @@ insertCss(fs.readFileSync(__dirname + '/css/code.css'));
 
 **/
 
-var shazam = module.exports = function(title, opts, deck) {
-  var slides = [];
-  var slideIdx = 0;
+var shazam = module.exports = function(title, opts, slides) {
+  var deck = require('./deck')();
   var autoTitle;
 
   var keyActions = {
-    37: previousSlide,
-    38: previousSlide,
-    39: nextSlide,
-    40: nextSlide
+    37: 'back',
+    38: 'back',
+    39: 'next',
+    40: 'next'
   };
 
   function nextSlide() {
@@ -89,7 +81,7 @@ var shazam = module.exports = function(title, opts, deck) {
 
   // check for no opts
   if (Array.isArray(opts)) {
-    deck = opts;
+    slides = opts;
     opts = {};
   }
 
@@ -97,21 +89,14 @@ var shazam = module.exports = function(title, opts, deck) {
   opts.basepath = opts.basepath || '';
 
   // if we are autotitling, then do that now
-  autoTitle = (opts || {}).autoTitle == true;
-  if (autoTitle) {
+  autoTitle = (opts || {}).autoTitle;
+  if (autoTitle == true || autoTitle == undefined) {
     console.log('auto titling');
-    deck = [{ title: title }].concat(deck);
+    slides = [{ title: title }].concat(slides);
   }
 
-  // create the slides
-  slides = deck.reduce(flatten)
-
-    // create the slides based in input
-    .map(render(opts))
-    // push right
-    .map(pushRight)
-    // append to the body
-    .map(append);
+  // initialise the slides
+  deck.data.set('slides', slides.reduce(flatten).map(render(opts)));
 
   // set out title based on the title provided
   document.title = title;
@@ -120,19 +105,20 @@ var shazam = module.exports = function(title, opts, deck) {
   pull(
     pull.Source(keydown),
     pull.map(function(evt) {
-      return evt.keyCode;
+      console.log(evt.keyCode);
+      return keyActions[evt.keyCode];
     }),
-    pull.filter(function(key) {
-      return keyActions[key];
-    }),
-    pull.drain(function(key) {
-      keyActions[key]();
+    pull.filter(Boolean),
+    pull.drain(function(action) {
+      if (typeof model[action] == 'function') {
+        model[action]();
+      }
     })
   );
 
   // display the initial slide
   if (slides.length > 0) {
-    activate(slides[slideIdx]);
+    deck.data.set('current', 0);
   }
 };
 
@@ -143,6 +129,10 @@ shazam.markdown = shazam.md = require('./markdown');
 shazam.html = require('./html');
 
 /* internal functions */
+
+function invokeAction(action) {
+
+}
 
 function push(position) {
   return function(slide) {

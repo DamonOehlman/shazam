@@ -27,7 +27,8 @@
     "highlight.js": "~7.3.0",
     "brfs": "0.0.8",
     "marked": "~0.2.9",
-    "whisk": "~0.1.0"
+    "whisk": "~0.1.0",
+    "gedi": "~0.9.7"
   },
   "browserify": {
     "transform": [
