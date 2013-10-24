@@ -32,11 +32,22 @@ Object.defineProperty(proto, 'current', {
     return this.data.get('[/current]');
   },
 
-  set: function() {
+  set: function(value) {
+    var slideCount = this.slides.length;
+
+    // ensure the value is within range
+    value = Math.max(0, Math.min(value, slideCount - 1));
+
+    // update the value
     return this.data.set('[/current]', value);
   }
 });
 
-proto.next = function() {
-  console.log('next');
+proto.back = function() {
+  this.current -= 1;
 };
+
+proto.next = function() {
+  this.current += 1;
+};
+

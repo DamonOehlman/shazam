@@ -15,11 +15,6 @@ function Slide(el) {
 
   // prepare the element
   this._prep(this.el);
-
-  var slide = this;
-  setTimeout(function() {
-    slide.loaded = false;
-  }, 1000);
 }
 
 util.inherits(Slide, EventEmitter);

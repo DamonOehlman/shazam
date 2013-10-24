@@ -28,11 +28,12 @@
     "brfs": "0.0.8",
     "marked": "~0.2.9",
     "whisk": "~0.1.0",
-    "gedi": "DamonOehlman/gedi#ignore-nodes"
+    "gedi": "DamonOehlman/gedi#ignore-nodes",
+    "stylify": "~0.1.1"
   },
   "browserify": {
     "transform": [
-      "brfs"
+      "stylify", "brfs"
     ]
   }
 }

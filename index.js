@@ -16,6 +16,9 @@ var qsa = require('dd/qsa');
 var current;
 var slide;
 
+// initialise the deck data (may as well be globally available)
+var deck = window.deck = require('./deck')();
+
 insertCss(fs.readFileSync(__dirname + '/css/base.css'));
 insertCss(fs.readFileSync(__dirname + '/css/code.css'));
 
@@ -38,7 +41,6 @@ insertCss(fs.readFileSync(__dirname + '/css/code.css'));
 **/
 
 var shazam = module.exports = function(title, opts, slides) {
-  var deck = require('./deck')();
   var autoTitle;
 
   var keyActions = {
@@ -51,6 +53,10 @@ var shazam = module.exports = function(title, opts, slides) {
   // when the entire slides change, then update the page
   deck.data.bind('[/slides]', function() {
     rebuildDeck(deck.slides, deck.current);
+  });
+
+  deck.data.bind('[/current]', function(changed) {
+    location.hash = 's' + changed.getValue();
   });
 
 
@@ -119,7 +125,7 @@ var shazam = module.exports = function(title, opts, slides) {
 
   // display the initial slide
   if (slides.length > 0) {
-    deck.data.set('current', 0);
+    deck.data.set('[/current]', 0);
   }
 };
 
@@ -140,7 +146,11 @@ function rebuildDeck(slides, current) {
   });
 
   // add the new slides
-  slides.forEach(function(slide) {
+  slides.forEach(function(slide, idx) {
+    // initialise the slide id
+    slide.el.id = 's' + idx;
+
+    // add the container
     container.appendChild(slide.el);
   });
 }
