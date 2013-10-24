@@ -31,4 +31,4 @@ var markdown = module.exports = function(md) {
   }
 
   return html(marked(md.replace(reLeadingAndTrailingSpaces, '$1')));
-}
+};
