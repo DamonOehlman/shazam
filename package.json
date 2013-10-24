@@ -1,6 +1,6 @@
 {
   "name": "shazam",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Vanquish your foes with crazy JS authored presentations",
   "main": "index.js",
   "scripts": {
@@ -33,7 +33,8 @@
   },
   "browserify": {
     "transform": [
-      "stylify", "brfs"
+      "stylify",
+      "brfs"
     ]
   }
 }
