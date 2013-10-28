@@ -28,7 +28,7 @@
     "brfs": "0.0.8",
     "marked": "~0.2.9",
     "whisk": "~0.1.0",
-    "gedi": "DamonOehlman/gedi#ignore-nodes",
+    "gedi": "~0.9.9",
     "stylify": "~0.1.1"
   },
   "browserify": {
