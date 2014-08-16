@@ -1,32 +1,37 @@
 /* jshint node: true */
 'use strict';
 
-var gedi = require('gedi');
+var Gedi = require('gedi');
+var inherits = require('inherits');
 
 function Deck() {
   if (! (this instanceof Deck)) {
     return new Deck();
   }
 
-  this.data = gedi({ slides: [], current: -1 });
+  // call inherited
+  Gedi.call(this, {
+    slides: [],
+    current: -1
+  });
 }
 
 module.exports = Deck;
-var proto = Deck.prototype;
+var proto = Deck.prototype = new Gedi();
 
 Object.defineProperty(proto, 'slides', {
   get: function() {
-    return this.data.get('[/slides]');
+    return this.get('[/slides]');
   },
 
   set: function(value) {
-    this.data.set('[/slides]', value);
+    this.set('[/slides]', value);
   }
 });
 
 Object.defineProperty(proto, 'current', {
   get: function() {
-    return this.data.get('[/current]');
+    return this.get('[/current]');
   },
 
   set: function(value) {
@@ -36,7 +41,7 @@ Object.defineProperty(proto, 'current', {
     value = Math.max(0, Math.min(value, slideCount - 1));
 
     // update the value
-    return this.data.set('[/current]', value);
+    return this.set('[/current]', value);
   }
 });
 

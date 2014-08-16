@@ -56,11 +56,11 @@ var shazam = module.exports = function(title, opts, slides) {
   insertCss(fs.readFileSync(__dirname + '/css/code.css', 'utf8'));
 
   // when the entire slides change, then update the page
-  deck.data.bind('[/slides]', function() {
+  deck.bind('[/slides]', function() {
     rebuildDeck(deck.slides, deck.current);
   });
 
-  deck.data.bind('[/current]', function(changed) {
+  deck.bind('[/current]', function(changed) {
     location.hash = 's' + changed.getValue();
   });
 
@@ -86,7 +86,7 @@ var shazam = module.exports = function(title, opts, slides) {
   }
 
   // initialise the slides
-  deck.data.set('[/slides]', slides.reduce(flatten).map(render(opts)));
+  deck.set('[/slides]', slides.reduce(flatten).map(render(opts)));
 
   // set out title based on the title provided
   document.title = title;
@@ -106,7 +106,7 @@ var shazam = module.exports = function(title, opts, slides) {
 
   // display the initial slide
   if (slides.length > 0) {
-    deck.data.set('[/current]', 0);
+    deck.set('[/current]', 0);
   }
 };
 
