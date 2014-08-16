@@ -65,28 +65,6 @@ var shazam = module.exports = function(title, opts, slides) {
   });
 
 
-  function nextSlide() {
-    if (slideIdx < slides.length - 1) {
-      slideIdx += 1;
-
-      slides[slideIdx - 1].emit('leave');
-      pushLeft(slides[slideIdx - 1]);
-      activate(slides[slideIdx]);
-      slides[slideIdx].emit('enter');
-    }
-  }
-
-  function previousSlide() {
-    if (slideIdx > 0) {
-      slideIdx -= 1;
-
-      slides[slideIdx + 1].emit('leave');
-      pushRight(slides[slideIdx + 1]);
-      activate(slides[slideIdx]);
-      slides[slideIdx].emit('enter');
-    }
-  }
-
   // if we don't have transforms spit the dummy
   if (! transform) {
     throw new Error('need css transforms');
