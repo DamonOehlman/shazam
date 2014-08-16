@@ -1,5 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
-var util = require('util');
+var inherits = require('inherits');
 var crel = require('crel');
 
 function Slide(el) {
@@ -17,7 +17,7 @@ function Slide(el) {
   this._prep(this.el);
 }
 
-util.inherits(Slide, EventEmitter);
+inherits(Slide, EventEmitter);
 
 module.exports = Slide;
 var proto = Slide.prototype;
