@@ -104,7 +104,6 @@ var shazam = module.exports = function(title, opts, slides) {
   // if we are autotitling, then do that now
   autoTitle = (opts || {}).autoTitle;
   if (autoTitle == true || autoTitle == undefined) {
-    console.log('auto titling');
     slides = [{ title: title }].concat(slides);
   }
 
@@ -118,7 +117,6 @@ var shazam = module.exports = function(title, opts, slides) {
   pull(
     pull.Source(keydown),
     pull.map(function(evt) {
-      console.log(evt.keyCode);
       return keyActions[evt.keyCode];
     }),
     pull.drain(function(action) {
