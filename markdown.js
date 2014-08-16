@@ -15,7 +15,7 @@ marked.setOptions({
     lang = hljsLangMappings[lang] || lang;
 
     // if this is a known hljs language then highlight
-    if (hljs.LANGUAGES[lang]) {
+    if (hljs.getLanguage(lang)) {
       return hljs.highlight(lang, code).value;
     }
     else {
