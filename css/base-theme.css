@@ -17,8 +17,8 @@ body {
 
 .slide h1:last-child {
   text-align: center;
-  height: 100%;
-  padding-top: 40%;
+  height: 100vh;
+  padding-top: 40vh;
 }
 
 .slide h2, .slide h3, .slide  h4 {

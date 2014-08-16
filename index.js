@@ -19,8 +19,8 @@ var slide;
 // initialise the deck data (may as well be globally available)
 var deck = window.deck = require('./deck')();
 
-insertCss(fs.readFileSync(__dirname + '/css/base-layout.css'));
-insertCss(fs.readFileSync(__dirname + '/css/base-theme.css'));
+insertCss(fs.readFileSync(__dirname + '/css/base-layout.css', 'utf8'));
+insertCss(fs.readFileSync(__dirname + '/css/base-theme.css', 'utf8'));
 
 /**
   # shazam
@@ -53,7 +53,7 @@ var shazam = module.exports = function(title, opts, slides) {
   };
 
   // TODO: configurable code theme
-  insertCss(fs.readFileSync(__dirname + '/css/code.css'));
+  insertCss(fs.readFileSync(__dirname + '/css/code.css', 'utf8'));
 
   // when the entire slides change, then update the page
   deck.data.bind('[/slides]', function() {
