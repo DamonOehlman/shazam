@@ -9,10 +9,10 @@ var crel = require('crel');
 var insertCss = require('insert-css');
 var transform = require('feature/css')('transform');
 var flatten = require('whisk/flatten');
-var keydown = require('dd/next')('keydown', document);
+var keydown = require('fdom/next')('keydown', document);
 var pull = require('pull-stream');
 var render = require('./render');
-var qsa = require('dd/qsa');
+var qsa = require('fdom/qsa');
 var current;
 var slide;
 
