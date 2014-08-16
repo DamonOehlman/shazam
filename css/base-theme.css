@@ -17,8 +17,10 @@ body {
 
 .slide h1:last-child {
   text-align: center;
-  height: 100vh;
-  padding-top: 40vh;
+  vertical-align: middle;
+  display: table-cell;
+  width: 90vw;
+  height: 90vh;
 }
 
 .slide h2, .slide h3, .slide  h4 {
