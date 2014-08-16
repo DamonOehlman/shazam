@@ -2,11 +2,8 @@
 'use strict';
 
 var gedi = require('gedi');
-var util = require('util');
 
 function Deck() {
-  console.log(this instanceof Deck);
-
   if (! (this instanceof Deck)) {
     return new Deck();
   }
