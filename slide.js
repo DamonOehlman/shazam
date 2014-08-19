@@ -1,5 +1,3 @@
-var EventEmitter = require('events').EventEmitter;
-var inherits = require('inherits');
 var crel = require('crel');
 
 function Slide(el) {
@@ -8,7 +6,7 @@ function Slide(el) {
   }
 
   // assign or create the element
-  this.el = el || crel('div');
+  this.el = el || crel('section');
 
   // flag whether loaded or not
   this.loaded = true;
@@ -16,8 +14,6 @@ function Slide(el) {
   // prepare the element
   this._prep(this.el);
 }
-
-inherits(Slide, EventEmitter);
 
 module.exports = Slide;
 var proto = Slide.prototype;
