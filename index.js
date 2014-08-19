@@ -3,24 +3,13 @@
 'use strict';
 
 var fs = require('fs');
-var gedi = require('gedi');
-// var bedazzle = require('bedazzle');
+var bespoke = require('bespoke');
 var crel = require('crel');
-var insertCss = require('insert-css');
-var transform = require('feature/css')('transform');
 var flatten = require('whisk/flatten');
-var keydown = require('fdom/next')('keydown', document);
-var pull = require('pull-stream');
 var render = require('./render');
 var qsa = require('fdom/qsa');
 var current;
 var slide;
-
-// initialise the deck data (may as well be globally available)
-var deck = window.deck = require('./deck')();
-
-insertCss(fs.readFileSync(__dirname + '/css/base-layout.css', 'utf8'));
-insertCss(fs.readFileSync(__dirname + '/css/base-theme.css', 'utf8'));
 
 /**
   # shazam
@@ -44,30 +33,13 @@ insertCss(fs.readFileSync(__dirname + '/css/base-theme.css', 'utf8'));
 
 var shazam = module.exports = function(title, opts, slides) {
   var autoTitle;
+  var deck;
 
-  var keyActions = {
-    37: 'back',
-    38: 'back',
-    39: 'next',
-    40: 'next'
-  };
-
-  // TODO: configurable code theme
-  insertCss(fs.readFileSync(__dirname + '/css/code.css', 'utf8'));
-
-  // when the entire slides change, then update the page
-  deck.bind('[/slides]', function() {
-    rebuildDeck(deck.slides, deck.current);
-  });
-
-  deck.bind('[/current]', function(changed) {
-    location.hash = 's' + changed.getValue();
-  });
-
-
-  // if we don't have transforms spit the dummy
-  if (! transform) {
-    throw new Error('need css transforms');
+  function getPluginList() {
+    return [
+      require('bespoke-keys')(),
+      require('bespoke-touch')()
+    ].concat((opts || {}).theme || require('bespoke-theme-voltaire')());
   }
 
   // check for no opts
@@ -85,29 +57,13 @@ var shazam = module.exports = function(title, opts, slides) {
     slides = [{ title: title }].concat(slides);
   }
 
-  // initialise the slides
-  deck.set('[/slides]', slides.reduce(flatten).map(render(opts)));
+  rebuildDeck(slides.reduce(flatten).map(render(opts)));
+
+  // initialise bespoke
+  deck = bespoke.from('article', getPluginList());
 
   // set out title based on the title provided
   document.title = title;
-
-  // handle keys
-  pull(
-    pull.Source(keydown),
-    pull.map(function(evt) {
-      return keyActions[evt.keyCode];
-    }),
-    pull.drain(function(action) {
-      if (action && typeof deck[action] == 'function') {
-        deck[action]();
-      }
-    })
-  );
-
-  // display the initial slide
-  if (slides.length > 0) {
-    deck.set('[/current]', 0);
-  }
 };
 
 /* simple inline plugins */
@@ -118,8 +74,22 @@ shazam.html = require('./html');
 
 /* helpers */
 
+function initContainer() {
+  var container = document.getElementById('shazam');
+
+  if (! container) {
+    container = crel('article', {
+      id: 'shazam'
+    });
+
+    document.body.appendChild(container);
+  }
+
+  return container;
+}
+
 function rebuildDeck(slides, current) {
-  var container = document.getElementById('shazam') || document.body;
+  var container = initContainer();
 
   // remove current slides
   qsa('.slide', container).forEach(function(el) {
@@ -128,9 +98,6 @@ function rebuildDeck(slides, current) {
 
   // add the new slides
   slides.forEach(function(slide, idx) {
-    // initialise the slide id
-    slide.el.id = 's' + idx;
-
     // add the container
     container.appendChild(slide.el);
   });

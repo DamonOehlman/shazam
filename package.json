@@ -19,17 +19,13 @@
   "author": "Damon Oehlman <damon.oehlman@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "brfs": "^1.2.0",
+    "bespoke": "^1.0.0",
+    "bespoke-keys": "^1.0.0",
+    "bespoke-theme-voltaire": "^0.1.2",
+    "bespoke-touch": "^1.0.0",
     "crel": "^1.1.2",
     "fdom": "^0.8.0",
-    "feature": "^0.1.4",
-    "gedi": "^1.5.1",
-    "highlight.js": "^8.1.0",
-    "inherits": "^2.0.1",
-    "insert-css": "^0.2.0",
     "marked": "^0.3.2",
-    "pull-stream": "^2.24.0",
-    "stylify": "^0.1.5",
     "whisk": "^0.6.2"
   },
   "browserify": {
