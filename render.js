@@ -12,7 +12,7 @@ module.exports = function(opts) {
 
     // handle content rendering
     if (typeof content == 'string' || (content instanceof String)) {
-      slide = new Slide(crel('div', content));
+      slide = new Slide(crel('section', content));
     }
 
     // create a new slide (if required)

@@ -1,7 +1,7 @@
 var crel = require('crel');
 
 module.exports = function(url) {
-  var el = crel('div');
+  var el = crel('section');
 
   // create an image to trigger loading
   var img = crel('img', {

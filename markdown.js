@@ -1,10 +1,5 @@
 var marked = require('marked');
 var html = require('./html');
-var hljs = require('highlight.js');
-var hljsLangMappings = {
-  js: 'javascript'
-};
-
 var reSlideBreak = /\n\r?\-{2,}/m;
 var reLeadingAndTrailingSpaces = /^\s*(.*)\s*$/m;
 
@@ -12,15 +7,7 @@ var reLeadingAndTrailingSpaces = /^\s*(.*)\s*$/m;
 
 marked.setOptions({
   highlight: function(code, lang) {
-    lang = hljsLangMappings[lang] || lang;
-
-    // if this is a known hljs language then highlight
-    if (hljs.getLanguage(lang)) {
-      return hljs.highlight(lang, code).value;
-    }
-    else {
-      return code;
-    }
+    return code;
   }
 });
 
