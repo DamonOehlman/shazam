@@ -49,6 +49,7 @@ var shazam = module.exports = function(title, opts, slides) {
 
   // initialise styles
   var styles = [
+    fs.readFileSync(__dirname + '/css/shazam.css'),
     fs.readFileSync(__dirname + '/css/code.css'),
     (opts || {}).codeTheme || fs.readFileSync(__dirname + '/css/railscasts.css')
   ].concat((opts || {}).styles || []);

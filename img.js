@@ -1,7 +1,10 @@
 var crel = require('crel');
+var extend = require('cog/extend');
 
-module.exports = function(url) {
-  var el = crel('section');
+module.exports = function(url, opts) {
+  var container = crel('div', extend({
+    class: 'shazam-image'
+  }, opts));
 
   // create an image to trigger loading
   var img = crel('img', {
@@ -9,11 +12,8 @@ module.exports = function(url) {
   });
 
   img.addEventListener('load', function() {
-    console.log('loaded: ' + url);
+    container.style['background-image'] = 'url("' + url + '")';
   });
 
-  // set the image as the background image for the element
-  el.style.backgroundImage = 'url(\'' + url + '\')';
-
-  return el;
+  return container;
 };
