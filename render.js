@@ -3,7 +3,9 @@ var Slide = require('./slide');
 
 module.exports = function(opts) {
   return function(content) {
-    var slide;
+    var slide = content instanceof Slide && content;
+
+    console.log(content);
 
     // handle things that are already a HTMLElement
     if (content instanceof HTMLElement) {
@@ -21,15 +23,6 @@ module.exports = function(opts) {
     // if we have a function, then call the function with the slide as "this"
     if (typeof content == 'function') {
       content.call(slide);
-    }
-    // if we have an object, then iterate through the keys and call
-    // relevant slide functions
-    else if (typeof content == 'object') {
-      Object.keys(content).forEach(function(key) {
-        if (typeof slide[key] == 'function') {
-          slide[key](content[key]);
-        }
-      });
     }
 
     return slide;

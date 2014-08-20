@@ -1,9 +1,10 @@
 var crel = require('crel');
+var Slide = require('./slide');
 
-module.exports = function(html) {
-  var el = crel('section', { class: 'slide' });
+module.exports = function(html, opts) {
+  var slide = new Slide(null, opts);
 
-  // set the inner html
-  el.innerHTML = html;
-  return el;
+  slide.el.innerHTML = html;
+
+  return slide;
 };

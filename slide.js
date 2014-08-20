@@ -1,34 +1,25 @@
 var crel = require('crel');
 
-function Slide(el) {
+function Slide(el, opts) {
   if (! (this instanceof Slide)) {
     return new Slide(el);
   }
 
   // assign or create the element
-  this.el = el || crel('section');
+  this.el = crel('section', el);
+
+  // if we have a hash, then set it
+  if (opts && opts.hash) {
+//     this.bespoke('hash', opts.hash);
+  }
 
   // flag whether loaded or not
   this.loaded = true;
-
-  // prepare the element
-  this._prep(this.el);
 }
 
 module.exports = Slide;
 var proto = Slide.prototype;
 
-proto.title = function(value) {
-  this.el.appendChild(this.title = crel('h1', value));
-};
-
-proto.code = function(value) {
-  console.log(value);
-};
-
-/* internal methods */
-
-proto._prep = function(el) {
-  // add the slide class
-  el.classList.add('slide');
+proto.bespoke = function(attr, value) {
+  this.el.setAttribute('data-bespoke-' + attr, value);
 };
