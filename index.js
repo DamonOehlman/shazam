@@ -42,10 +42,13 @@ var slide;
 
 **/
 
-var shazam = module.exports = function(title, opts, slides) {
+var shazam = module.exports = function(opts) {
   var insertCss = require('insert-css');
   var autoTitle;
   var deck;
+
+  // initialise the slides
+  var slides = (opts || {}).slides || [];
 
   // initialise styles
   var styles = [
@@ -59,14 +62,8 @@ var shazam = module.exports = function(title, opts, slides) {
       require('bespoke-keys')(),
       require('bespoke-touch')(),
       require('bespoke-hash')(),
-      require('bespoke-bullets')()
+      require('bespoke-bullets')('li, .bullet')
     ].concat((opts || {}).theme || require('bespoke-theme-voltaire')());
-  }
-
-  // check for no opts
-  if (Array.isArray(opts)) {
-    slides = opts;
-    opts = {};
   }
 
   // initialise the basepath
@@ -78,7 +75,7 @@ var shazam = module.exports = function(title, opts, slides) {
   deck = bespoke.from('article', getPluginList());
 
   // set out title based on the title provided
-  document.title = title;
+  document.title = (opts || {}).title || 'Untitled Presentation';
 
   // insert the required css
   styles.forEach(insertCss);

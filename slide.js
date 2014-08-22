@@ -1,6 +1,10 @@
 var crel = require('crel');
 var reImg = /\.(jpg|jpeg|png|bmp|gif|svg)$/i;
 
+var imageAttributes = [
+  'jpg', 'jpeg', 'png', 'bmp', 'gif', 'svg'
+];
+
 var allowedStyleOverrides = [
   'color'
 ];
@@ -17,6 +21,13 @@ function Slide(el, opts) {
   if (opts && opts.hash) {
 //     this.bespoke('hash', opts.hash);
   }
+
+  // check for any image attributes
+  imageAttributes.forEach(function(key) {
+    if (opts && opts[key] && (! opts.background)) {
+     opts.background = 'images/' + opts[key] + '.' + key;
+    }
+  });
 
   if (opts && opts.background) {
     this.setBackground(opts.background);
