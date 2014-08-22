@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "bespoke": "^1.0.0",
+    "bespoke-bullets": "^1.1.0",
     "bespoke-hash": "^1.0.0",
     "bespoke-keys": "^1.0.0",
     "bespoke-scale": "^1.0.0",
@@ -33,7 +34,7 @@
     "insert-css": "^0.2.0",
     "marked": "^0.3.2",
     "marked-ast": "^0.1.0",
-    "marked-ast-crel": "^1.1.0",
+    "marked-ast-crel": "^1.3.0",
     "whisk": "^0.6.2"
   },
   "browserify": {

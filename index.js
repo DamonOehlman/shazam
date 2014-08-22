@@ -59,8 +59,8 @@ var shazam = module.exports = function(title, opts, slides) {
       require('bespoke-keys')(),
       require('bespoke-touch')(),
       require('bespoke-hash')(),
-      require('bespoke-scale')()
-    ].concat(((opts || {}).theme || require('bespoke-theme-voltaire'))());
+      require('bespoke-bullets')()
+    ].concat((opts || {}).theme || require('bespoke-theme-voltaire')());
   }
 
   // check for no opts
