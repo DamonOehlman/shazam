@@ -16,7 +16,7 @@ module.exports = function(opts) {
     }
 
     // create a new slide (if required)
-    slide = slide || new Slide();
+    slide = slide || new Slide(content);
 
     // if we have a function, then call the function with the slide as "this"
     if (typeof content == 'function') {
