@@ -1,9 +1,7 @@
-div.shazam-image {
-  width: 100%;
-  height: 100%;
+section.shazam-image {
   background-size: cover;
 }
 
-div.shazam-image[contain="true"] {
+section.shazam-image[contain="true"] {
   background-size: contain;
 }

@@ -58,8 +58,9 @@ var shazam = module.exports = function(title, opts, slides) {
     return [
       require('bespoke-keys')(),
       require('bespoke-touch')(),
-      require('bespoke-hash')()
-    ].concat((opts || {}).theme || require('bespoke-theme-voltaire')());
+      require('bespoke-hash')(),
+      require('bespoke-scale')()
+    ].concat(((opts || {}).theme || require('bespoke-theme-voltaire'))());
   }
 
   // check for no opts
@@ -70,12 +71,6 @@ var shazam = module.exports = function(title, opts, slides) {
 
   // initialise the basepath
   opts.basepath = opts.basepath || '';
-
-  // if we are autotitling, then do that now
-  autoTitle = (opts || {}).autoTitle;
-  if (autoTitle == true || autoTitle == undefined) {
-    slides = [shazam.h1(title)].concat(slides);
-  }
 
   rebuildDeck(slides.reduce(flatten).map(render(opts)));
 
