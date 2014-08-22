@@ -11,8 +11,7 @@ var crel = require('crel');
 var flatten = require('whisk/flatten');
 var render = require('./render');
 var qsa = require('fdom/qsa');
-var current;
-var slide;
+var Slide = require('./slide');
 
 /**
   # shazam
@@ -89,6 +88,7 @@ var shazam = module.exports = function(opts) {
 shazam.img = require('./img');
 shazam.markdown = shazam.md = require('./markdown');
 shazam.html = require('./html');
+shazam.blank = shazam.slide = Slide;
 
 SUPPORTED_TAGS.forEach(function(tagName) {
   shazam[tagName] = require('./tag')(tagName);
