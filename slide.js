@@ -15,7 +15,7 @@ function Slide(el, opts) {
   }
 
   // assign or create the element
-  this.el = crel('section', el);
+  this.el = crel.apply(null, ['section'].concat(el || []));
 
   // if we have a hash, then set it
   if (opts && opts.hash) {
