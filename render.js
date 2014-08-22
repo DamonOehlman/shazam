@@ -5,8 +5,6 @@ module.exports = function(opts) {
   return function(content) {
     var slide = content instanceof Slide && content;
 
-    console.log(content);
-
     // handle things that are already a HTMLElement
     if (content instanceof HTMLElement) {
       slide = new Slide(content);
