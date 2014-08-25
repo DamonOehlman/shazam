@@ -60,8 +60,7 @@ var shazam = module.exports = function(opts) {
     return [
       require('bespoke-keys')(),
       require('bespoke-touch')(),
-      require('bespoke-hash')(),
-      require('bespoke-bullets')('li, .bullet')
+      require('bespoke-hash')()
     ].concat((opts || {}).theme || require('bespoke-theme-voltaire')());
   }
 
