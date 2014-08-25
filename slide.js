@@ -11,7 +11,7 @@ var allowedStyleOverrides = [
 
 function Slide(el, opts) {
   if (! (this instanceof Slide)) {
-    return new Slide(el);
+    return new Slide(el, opts);
   }
 
   // assign or create the element
