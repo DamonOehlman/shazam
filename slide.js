@@ -6,7 +6,7 @@ var imageAttributes = [
 ];
 
 var allowedStyleOverrides = [
-  'color'
+  'color', 'fontSize'
 ];
 
 function Slide(el, opts) {
