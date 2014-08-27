@@ -87,6 +87,7 @@ var shazam = module.exports = function(opts) {
 shazam.img = require('./img');
 shazam.markdown = shazam.md = require('./markdown');
 shazam.html = require('./html');
+shazam.site = require('./site');
 shazam.blank = shazam.slide = Slide;
 
 SUPPORTED_TAGS.forEach(function(tagName) {
