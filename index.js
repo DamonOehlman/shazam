@@ -8,10 +8,10 @@ var hljs = require('highlight.js');
 var fs = require('fs');
 var bespoke = require('bespoke');
 var crel = require('crel');
-var flatten = require('whisk/flatten');
 var render = require('./render');
 var qsa = require('fdom/qsa');
 var Slide = require('./slide');
+var _ = require('underscore');
 
 /**
   # shazam
@@ -67,7 +67,8 @@ var shazam = module.exports = function(opts) {
   // initialise the basepath
   opts.basepath = opts.basepath || '';
 
-  rebuildDeck(slides.reduce(flatten).map(render(opts)));
+  // flatten the slides
+  rebuildDeck(_.flatten(slides).map(render(opts)));
 
   // initialise bespoke
   deck = bespoke.from('article', getPluginList());
