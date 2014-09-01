@@ -1,5 +1,6 @@
 var crel = require('crel');
 var reImg = /\.(jpg|jpeg|png|bmp|gif|svg)$/i;
+var reURL = /^\w*\:?\/\//;
 
 var imageAttributes = [
   'jpg', 'jpeg', 'png', 'bmp', 'gif', 'svg'
@@ -10,6 +11,8 @@ var allowedStyleOverrides = [
 ];
 
 function Slide(el, opts) {
+  var backgroundImage = false;
+
   if (! (this instanceof Slide)) {
     return new Slide(el, opts);
   }
@@ -25,12 +28,13 @@ function Slide(el, opts) {
   // check for any image attributes
   imageAttributes.forEach(function(key) {
     if (opts && opts[key] && (! opts.background)) {
-     opts.background = 'images/' + opts[key] + '.' + key;
+      opts.background = reURL.test(opts[key]) ? opts[key] : ('images/' + opts[key] + '.' + key);
+      backgroundImage = true;
     }
   });
 
   if (opts && opts.background) {
-    this.setBackground(opts.background);
+    this.setBackground(opts.background, backgroundImage);
 
     // set the background size
     this.el.style.backgroundSize = (opts || {}).contain ? 'contain': 'cover';
@@ -60,8 +64,8 @@ proto.bespoke = function(attr, value) {
   this.el.setAttribute('data-bespoke-' + attr, value);
 };
 
-proto.setBackground = function(value) {
-  if (reImg.test(value)) {
+proto.setBackground = function(value, bgImage) {
+  if (bgImage || reImg.test(value)) {
     return this.setBackgroundImage(value);
   }
 
