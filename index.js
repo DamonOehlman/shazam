@@ -2,15 +2,13 @@
 /* global document: false */
 'use strict';
 
-var SUPPORTED_TAGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-
 var hljs = require('highlight.js');
 var fs = require('fs');
 var bespoke = require('bespoke');
 var crel = require('crel');
 var render = require('./render');
 var qsa = require('fdom/qsa');
-var Slide = require('./slide');
+var shaz = require('shaz');
 var _ = require('underscore');
 
 /**
@@ -85,16 +83,13 @@ var shazam = module.exports = function(opts) {
 
 /* simple inline plugins */
 
-shazam.img = require('./img');
-shazam.markdown = shazam.md = require('./markdown');
-shazam.html = require('./html');
-shazam.site = require('./site');
-shazam.blank = shazam.slide = Slide;
-
-SUPPORTED_TAGS.forEach(function(tagName) {
-  shazam[tagName] = require('./tag')(tagName);
+Object.keys(shaz).forEach(function(key) {
+  shazam[key] = shaz[key];
 });
 
+shazam.markdown = shazam.md = require('./markdown');
+shazam.site = require('./site');
+shazam.blank = shaz.slide;
 
 /* helpers */
 

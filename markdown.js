@@ -1,7 +1,7 @@
 // var marked = require('marked');
 var marked = require('marked-ast');
-var Slide = require('./slide');
-var html = require('./html');
+var Slide = require('shaz/slide');
+var html = require('shaz/html');
 var reSlideBreak = /\n\r?\-{2,}/m;
 // var hljs = require('highlight.js');
 var reLeadingAndTrailingSpaces = /^\s*(.*)\s*$/m;

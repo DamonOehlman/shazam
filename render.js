@@ -1,5 +1,5 @@
 var crel = require('crel');
-var Slide = require('./slide');
+var Slide = require('shaz/slide');
 
 module.exports = function(opts) {
   return function(content) {

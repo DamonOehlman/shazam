@@ -1,5 +1,5 @@
 var crel = require('crel');
-var Slide = require('./slide');
+var Slide = require('shaz/slide');
 var reURL = /^\w+\:\/\//;
 
 module.exports = function(site, opts) {
