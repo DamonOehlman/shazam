@@ -87,8 +87,6 @@ Object.keys(shaz).forEach(function(key) {
   shazam[key] = shaz[key];
 });
 
-shazam.markdown = shazam.md = require('./markdown');
-shazam.site = require('./site');
 shazam.blank = shaz.slide;
 
 /* helpers */
