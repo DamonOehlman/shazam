@@ -22,19 +22,19 @@
     "bespoke": "^1.0.0",
     "bespoke-hash": "^1.0.0",
     "bespoke-keys": "^1.0.0",
-    "bespoke-theme-voltaire": "^0.1.2",
+    "bespoke-theme-voltaire": "^1.0.1",
     "bespoke-touch": "^1.0.0",
     "brfs": "^1.2.0",
     "cog": "^1.0.0",
-    "crel": "^1.1.2",
-    "fdom": "^0.8.0",
+    "crel": "^2.1.8",
+    "fdom": "^1.2.0",
     "highlight.js": "^8.1.0",
     "insert-css": "^0.2.0",
-    "marked-ast": "^0.1.0",
+    "marked-ast": "^0.2.0",
     "marked-ast-crel": "^1.3.0",
-    "shaz": "^1.2.0",
+    "shaz": "^2.1.0",
     "underscore": "^1.7.0",
-    "whisk": "^0.6.2"
+    "whisk": "^1.1.0"
   },
   "browserify": {
     "transform": [
