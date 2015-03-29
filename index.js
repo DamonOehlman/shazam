@@ -62,14 +62,30 @@ var shazam = module.exports = function(opts) {
     ].concat((opts || {}).theme || require('bespoke-theme-voltaire')());
   }
 
+  function triggerEvent(evtName) {
+    return function(evt) {
+      var slide = slides[evt.index];
+      if (slide && typeof slide.emit == 'function') {
+        slide.emit(evtName);
+      }
+    };
+  }
+
+  // ensure we have opts
+  opts = opts || {};
+
   // initialise the basepath
   opts.basepath = opts.basepath || '';
 
   // flatten the slides
-  rebuildDeck(_.flatten(slides).map(render(opts)));
+  rebuildDeck(slides = _.flatten(slides).map(render(opts)));
 
   // initialise bespoke
   deck = bespoke.from('article', getPluginList());
+
+  ['activate', 'deactivate'].forEach(function(evtName) {
+    deck.on(evtName, triggerEvent(evtName));
+  });
 
   // set out title based on the title provided
   document.title = (opts || {}).title || 'Untitled Presentation';
