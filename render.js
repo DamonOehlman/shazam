@@ -3,7 +3,11 @@ var Slide = require('shaz/slide');
 
 module.exports = function(opts) {
   return function(content) {
-    var slide = content instanceof Slide && content;
+    var slide;
+
+    if (content && content.el) {
+      slide = content;
+    }
 
     // handle things that are already a HTMLElement
     if (content instanceof HTMLElement) {
