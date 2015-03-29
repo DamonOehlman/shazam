@@ -7,7 +7,7 @@ that sort of thing baked in.
 
 [![NPM](https://nodei.co/npm/shazam.png)](https://nodei.co/npm/shazam/)
 
-
+[![bitHound Score](https://www.bithound.io/github/DamonOehlman/shazam/badges/score.svg)](https://www.bithound.io/github/DamonOehlman/shazam) 
 
 ## How it Works
 
@@ -20,18 +20,17 @@ it's thing.
 ## Example Usage
 
 ```js
-var s = require('shazam');
+var s = require('shazam/slide');
 
-s({
-	title: 'A simple presentation system',
-	slides: [
-		'A simple presentation system',
-		'more test',
-		s.img('http://farm6.staticflickr.com/5350/7053917095_279527795c_o.jpg'),
-		s.img('http://farm4.staticflickr.com/3145/2944068022_19a918b09e_b.jpg'),
-	]
+require('shazam')({
+  title: 'A simple presentation system',
+  slides: [
+    'A simple presentation system',
+    'more test',
+    s().img('http://farm6.staticflickr.com/5350/7053917095_279527795c_o.jpg'),
+    s().img('http://farm4.staticflickr.com/3145/2944068022_19a918b09e_b.jpg'),
+  ]
 });
-
 
 ```
 
@@ -46,7 +45,7 @@ beefy examples/welcome.js
 
 ### MIT
 
-Copyright (c) 2014 Damon Oehlman <damon.oehlman@gmail.com>
+Copyright (c) 2015 Damon Oehlman <damon.oehlman@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
