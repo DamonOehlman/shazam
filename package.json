@@ -1,6 +1,6 @@
 {
   "name": "shazam",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Vanquish your foes with crazy JS authored presentations",
   "main": "index.js",
   "scripts": {
