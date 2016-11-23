@@ -49,9 +49,9 @@ var shazam = module.exports = function(opts) {
 
   // initialise styles
   var styles = [
-    fs.readFileSync(__dirname + '/css/shazam.css'),
-    fs.readFileSync(__dirname + '/css/code.css'),
-    (opts || {}).codeTheme || fs.readFileSync(__dirname + '/css/railscasts.css')
+    fs.readFileSync(__dirname + '/css/shazam.css', 'utf8'),
+    fs.readFileSync(__dirname + '/css/code.css', 'utf8'),
+    (opts || {}).codeTheme || fs.readFileSync(__dirname + '/css/railscasts.css', 'utf8')
   ].concat((opts || {}).styles || []);
 
   function getPluginList() {
