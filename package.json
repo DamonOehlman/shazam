@@ -29,7 +29,7 @@
     "crel": "^3.0.0",
     "fdom": "^1.2.0",
     "highlight.js": "^9.8.0",
-    "insert-css": "^1.0.0",
+    "insert-css": "^2.0.0",
     "marked-ast": "^0.3.0",
     "marked-ast-crel": "^1.3.0",
     "shaz": "^2.1.0",
