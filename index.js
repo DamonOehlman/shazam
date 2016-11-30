@@ -55,11 +55,15 @@ var shazam = module.exports = function(opts) {
   ].concat((opts || {}).styles || []);
 
   function getPluginList() {
-    return [
+    const defaultPlugins = [
       require('bespoke-keys')(),
       require('bespoke-touch')(),
       require('bespoke-hash')()
-    ].concat((opts || {}).theme || require('bespoke-theme-voltaire')());
+    ];
+    
+    return defaultPlugins
+      .concat((opts || {}).plugins || [])
+      .concat((opts || {}).theme || require('bespoke-theme-voltaire')());
   }
 
   function triggerEvent(evtName) {
