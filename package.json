@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:demo": "budo examples/welcome.js",
-    "gendocs": "gendocs > README.md"
+    "gendocs": "embellish README.md"
   },
   "repository": {
     "type": "git",
@@ -42,6 +42,7 @@
     ]
   },
   "devDependencies": {
-    "budo": "^11.6.4"
+    "budo": "^11.6.4",
+    "embellish-readme": "^1.6.0"
   }
 }
