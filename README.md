@@ -16,7 +16,7 @@ of bespoke plugins.  All it's really doing is dynamically creating the
 HTML with the various builder functions before letting bespoke do
 it's thing.
 
-## Example Usagegendocs
+## Example Usage
 
 ```js
 const s = require('shazam/slide');

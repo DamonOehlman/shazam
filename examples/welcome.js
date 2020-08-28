@@ -1,4 +1,4 @@
-var s = require('../slide');
+const s = require('../slide');
 
 require('..')({
   title: 'A simple presentation system',
