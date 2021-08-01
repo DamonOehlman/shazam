@@ -1,11 +1,13 @@
 const hljs = require('highlight.js');
-const fs = require('fs');
 const bespoke = require('bespoke');
-const crel = require('crel');
-const render = require('./render');
 const qsa = require('fdom/qsa');
 const shaz = require('shaz');
 const _ = require('underscore');
+const { render } = require('./lib/render');
+const { importStyles } = require('./lib/css');
+const { initContainer } = require('./lib/container');
+
+const DEFAULT_PLUGIN_PACKAGES = [require('bespoke-keys'), require('bespoke-touch'), require('bespoke-hash')];
 
 /**
   # shazam
@@ -35,89 +37,45 @@ const _ = require('underscore');
 
 **/
 
-const shazam = module.exports = (opts = {}) => {
-  const insertCss = require('insert-css');
-  const defaultPlugins = [
-    require('bespoke-keys')(),
-    require('bespoke-touch')(),
-    require('bespoke-hash')()
-  ];
+const shazam = (opts = {}) => {
+  const defaultPlugins = DEFAULT_PLUGIN_PACKAGES.map((plugin) => plugin());
+  const slides = _.flatten(opts.slides || []).map(render(opts));
 
-  // initialise styles
-  const styles = [
-    fs.readFileSync(__dirname + '/css/shazam.css', 'utf8'),
-    fs.readFileSync(__dirname + '/css/code.css', 'utf8'),
-    opts.codeTheme || fs.readFileSync(__dirname + '/css/railscasts.css', 'utf8'),
-    ...opts.styles || [],
-  ];
-
-  const getPluginList = () => ([
+  const getPluginList = () => [
     ...defaultPlugins,
     ...(opts.plugins || []),
     opts.theme || require('bespoke-theme-voltaire')(),
-  ]);
+  ];
 
-  let slides = (opts || {}).slides || [];
-  let autoTitle;
-  let deck;
+  const triggerEvent = (evtName) => (evt) => {
+    const slide = slides[evt.index];
+    if (slide && typeof slide.emit === 'function') {
+      slide.emit(evtName);
+    }
+  };
 
-  function triggerEvent(evtName) {
-    return function(evt) {
-      var slide = slides[evt.index];
-      if (slide && typeof slide.emit == 'function') {
-        slide.emit(evtName);
-      }
-    };
-  }
-
-  // initialise the basepath
-  opts.basepath = opts.basepath || '';
-
-  // flatten the slides
-  rebuildDeck(slides = _.flatten(slides).map(render(opts)));
+  const container = initContainer();
+  qsa('.slide', container).forEach((el) => el.parentNode.removeChild(el));
+  slides.forEach((slide) => container.appendChild(slide.el));
 
   // initialise bespoke
-  deck = bespoke.from('article', getPluginList());
+  const deck = bespoke.from('article', getPluginList());
 
-  ['activate', 'deactivate'].forEach(function(evtName) {
+  ['activate', 'deactivate'].forEach((evtName) => {
     deck.on(evtName, triggerEvent(evtName));
   });
 
   // set out title based on the title provided
   document.title = (opts || {}).title || 'Untitled Presentation';
-
-  // insert the required css
-  styles.forEach(insertCss);
-
-  // initialise any code fragments
+  importStyles(opts.styles, opts.codeTheme);
   qsa('pre code').forEach(hljs.highlightBlock.bind(hljs));
 };
 
-/* simple inline plugins */
-
-Object.keys(shaz).forEach(function(key) {
+// monkey patch any of the shaz plugins onto shazam
+Object.keys(shaz).forEach((key) => {
   shazam[key] = shaz[key];
 });
 
 shazam.blank = shaz.slide;
 
-/* helpers */
-
-function initContainer() {
-  let container = document.getElementById('shazam');
-  if (!container) {
-    container = crel('article', {
-      id: 'shazam'
-    });
-
-    document.body.appendChild(container);
-  }
-
-  return container;
-}
-
-function rebuildDeck(slides, current) {
-  const container = initContainer();
-  qsa('.slide', container).forEach(el => el.parentNode.removeChild(el))
-  slides.forEach((slide) => container.appendChild(slide.el))
-}
+module.exports = shazam;
