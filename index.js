@@ -1,15 +1,11 @@
-/* jshint node: true */
-/* global document: false */
-'use strict';
-
-var hljs = require('highlight.js');
-var fs = require('fs');
-var bespoke = require('bespoke');
-var crel = require('crel');
-var render = require('./render');
-var qsa = require('fdom/qsa');
-var shaz = require('shaz');
-var _ = require('underscore');
+const hljs = require('highlight.js');
+const fs = require('fs');
+const bespoke = require('bespoke');
+const crel = require('crel');
+const render = require('./render');
+const qsa = require('fdom/qsa');
+const shaz = require('shaz');
+const _ = require('underscore');
 
 /**
   # shazam
@@ -39,32 +35,31 @@ var _ = require('underscore');
 
 **/
 
-var shazam = module.exports = function(opts) {
-  var insertCss = require('insert-css');
-  var autoTitle;
-  var deck;
-
-  // initialise the slides
-  var slides = (opts || {}).slides || [];
+const shazam = module.exports = (opts = {}) => {
+  const insertCss = require('insert-css');
+  const defaultPlugins = [
+    require('bespoke-keys')(),
+    require('bespoke-touch')(),
+    require('bespoke-hash')()
+  ];
 
   // initialise styles
-  var styles = [
+  const styles = [
     fs.readFileSync(__dirname + '/css/shazam.css', 'utf8'),
     fs.readFileSync(__dirname + '/css/code.css', 'utf8'),
-    (opts || {}).codeTheme || fs.readFileSync(__dirname + '/css/railscasts.css', 'utf8')
-  ].concat((opts || {}).styles || []);
+    opts.codeTheme || fs.readFileSync(__dirname + '/css/railscasts.css', 'utf8'),
+    ...opts.styles || [],
+  ];
 
-  function getPluginList() {
-    const defaultPlugins = [
-      require('bespoke-keys')(),
-      require('bespoke-touch')(),
-      require('bespoke-hash')()
-    ];
-    
-    return defaultPlugins
-      .concat((opts || {}).plugins || [])
-      .concat((opts || {}).theme || require('bespoke-theme-voltaire')());
-  }
+  const getPluginList = () => ([
+    ...defaultPlugins,
+    ...(opts.plugins || []),
+    opts.theme || require('bespoke-theme-voltaire')(),
+  ]);
+
+  let slides = (opts || {}).slides || [];
+  let autoTitle;
+  let deck;
 
   function triggerEvent(evtName) {
     return function(evt) {
@@ -74,9 +69,6 @@ var shazam = module.exports = function(opts) {
       }
     };
   }
-
-  // ensure we have opts
-  opts = opts || {};
 
   // initialise the basepath
   opts.basepath = opts.basepath || '';
@@ -112,9 +104,8 @@ shazam.blank = shaz.slide;
 /* helpers */
 
 function initContainer() {
-  var container = document.getElementById('shazam');
-
-  if (! container) {
+  let container = document.getElementById('shazam');
+  if (!container) {
     container = crel('article', {
       id: 'shazam'
     });
@@ -126,16 +117,7 @@ function initContainer() {
 }
 
 function rebuildDeck(slides, current) {
-  var container = initContainer();
-
-  // remove current slides
-  qsa('.slide', container).forEach(function(el) {
-    el.parentNode.removeChild(el);
-  });
-
-  // add the new slides
-  slides.forEach(function(slide, idx) {
-    // add the container
-    container.appendChild(slide.el);
-  });
+  const container = initContainer();
+  qsa('.slide', container).forEach(el => el.parentNode.removeChild(el))
+  slides.forEach((slide) => container.appendChild(slide.el))
 }
